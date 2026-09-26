@@ -1,0 +1,42 @@
+name: Publish REV2K Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - ".github/workflows/release-rev2k.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify firmware exists
+        run: |
+          test -f NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat
+          test "$(stat -c %s NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat)" = "401488"
+          test "$(sha256sum NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat | awk '{print $1}')" = "04bc1e1f9212f85416f9400e3791d494ed8741c9f26f188be01bb97a367851bb"
+
+      - name: Create REV2K release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view REV2K >/dev/null 2>&1; then
+            echo "Release REV2K already exists; replacing asset and notes."
+            gh release upload REV2K NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat --clobber
+            gh release edit REV2K \
+              --title "NUSA UV-5RH PRO V2 APRS REV2K" \
+              --notes-file RELEASE_NOTES_REV2K.md
+          else
+            gh release create REV2K \
+              NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat \
+              --target main \
+              --title "NUSA UV-5RH PRO V2 APRS REV2K" \
+              --notes-file RELEASE_NOTES_REV2K.md
+          fi
