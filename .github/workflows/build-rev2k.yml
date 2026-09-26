@@ -1,0 +1,39 @@
+name: Build REV2K firmware
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - "tools/build_rev2k.py"
+      - ".github/workflows/build-rev2k.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build REV2K
+        run: python3 tools/build_rev2k.py
+
+      - name: Verify firmware
+        run: |
+          test "$(sha256sum NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat | awk '{print $1}')" = "04bc1e1f9212f85416f9400e3791d494ed8741c9f26f188be01bb97a367851bb"
+          test "$(stat -c %s NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat)" = "401488"
+
+      - name: Commit firmware
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat
+          if git diff --cached --quiet; then
+            echo "Firmware already current."
+          else
+            git commit -m "Add REV2K firmware binary"
+            git push
+          fi
