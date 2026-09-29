@@ -6,6 +6,7 @@ on:
     branches: [ main ]
     paths:
       - ".github/workflows/release-rev2r.yml"
+      - "REV2R_NOTES.md"
 
 permissions:
   contents: write
@@ -30,7 +31,7 @@ jobs:
           if gh release view REV2R >/dev/null 2>&1; then
             echo "Release REV2R already exists; updating asset and notes."
             gh release upload REV2R NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat --clobber
-            gh release edit REV2R               --title "NUSA UV-5RH PRO V2 APRS REV2R / NUSA 2R"               --notes-file REV2R_NOTES.md
+            gh release edit REV2R               --title "NUSA UV-5RM / UV-5RH Board V1 APRS REV2R / NUSA 2R"               --notes-file REV2R_NOTES.md
           else
-            gh release create REV2R               NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat               --target main               --title "NUSA UV-5RH PRO V2 APRS REV2R / NUSA 2R"               --notes-file REV2R_NOTES.md
+            gh release create REV2R               NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat               --target main               --title "NUSA UV-5RM / UV-5RH Board V1 APRS REV2R / NUSA 2R"               --notes-file REV2R_NOTES.md
           fi
