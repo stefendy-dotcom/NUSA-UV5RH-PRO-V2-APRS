@@ -1,6 +1,6 @@
 # NUSA UV-5RH PRO V2 APRS Firmware
 
-Custom APRS firmware for **Baofeng UV-5RH PRO V2**, based on the V2.0.9 firmware family.
+Custom APRS firmware for **Baofeng UV-5RM / UV-5RH board V1** that is compatible with the **V2.0.9 firmware family**.
 
 Current firmware files:
 
@@ -9,11 +9,11 @@ Current firmware files:
 
 ## Latest development: REV2R / NUSA 2R
 
-REV2R retains the REV2P/REV2Q APRS modem compatibility changes while restoring the OEM APRS enable/disable control. Field testing has confirmed that **APRS → APRS Ctrl → OFF now works correctly**. TX/beacon compatibility improvements from REV2P were also confirmed with VP-Digi and TYT. Weak-signal RX remains an active field-test area; no speculative RF gain/LNA/PGA/AGC register changes are used.
+REV2R is the current compatibility build for **UV-5RM / UV-5RH board V1** radios that use the V2.0.9 firmware family. It retains the REV2P/REV2Q APRS modem compatibility changes while restoring the OEM APRS enable/disable control. Field testing has confirmed that **APRS → APRS Ctrl → OFF now works correctly**. TX/beacon compatibility improvements from REV2P were also confirmed with VP-Digi and TYT. Weak-signal RX remains an active field-test area; no speculative RF gain/LNA/PGA/AGC register changes are used.
 
 See `REV2R_NOTES.md` for bilingual details.
 
-> **Important:** This build is intended only for the compatible UV-5RH PRO V2 hardware/firmware family that is known to accept the V2.0.9 firmware format. Do not flash it to a different hardware revision.
+> **BOARD COMPATIBILITY — IMPORTANT:** REV2R / NUSA 2R is intended for **Baofeng UV-5RM / UV-5RH board V1** units that are already known to accept the **V2.0.9 firmware family**. The `V2` wording in the project/file history refers to the **V2.0.9 firmware family**, not to a board-V2 hardware revision. **Do not flash REV2R to a different board/hardware revision unless compatibility has been independently confirmed.**
 
 ---
 
@@ -50,8 +50,11 @@ REV2K has been tested on compatible UV-5RH PRO V2 hardware and is the stable ref
 
 Target:
 
-- Baofeng UV-5RH PRO V2 hardware compatible with the V2.0.9 firmware family.
+- **Baofeng UV-5RM / UV-5RH board V1**.
+- Unit must already be compatible with the **V2.0.9 firmware family**.
 - Firmware package size: 401,488 bytes.
+
+**Not intended for unverified board V2/V3 or other hardware revisions.**
 
 This project must not be treated as interchangeable with UV-K5 or other BK4819-based projects. The UV-5RH PRO exists in multiple hardware/firmware variants.
 
@@ -108,8 +111,11 @@ REV2K telah diuji pada hardware UV-5RH PRO V2 yang kompatibel dan menjadi firmwa
 
 Target:
 
-- Baofeng UV-5RH PRO V2 yang kompatibel dengan keluarga firmware V2.0.9.
+- **Baofeng UV-5RM / UV-5RH board V1**.
+- Unit harus sudah terbukti kompatibel dengan **keluarga firmware V2.0.9**.
 - Ukuran paket firmware: 401.488 byte.
+
+**Tidak ditujukan untuk board V2/V3 atau revisi hardware lain yang belum terverifikasi.**
 
 Proyek ini tidak boleh dianggap sama dengan proyek UV-K5 atau perangkat BK4819 lain tanpa verifikasi. UV-5RH PRO memiliki beberapa varian hardware/firmware.
 
