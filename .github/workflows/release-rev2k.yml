@@ -6,6 +6,7 @@ on:
     branches: [ main ]
     paths:
       - ".github/workflows/release-rev2k.yml"
+      - "RELEASE_NOTES_REV2K.md"
 
 permissions:
   contents: write
@@ -31,12 +32,12 @@ jobs:
             echo "Release REV2K already exists; replacing asset and notes."
             gh release upload REV2K NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat --clobber
             gh release edit REV2K \
-              --title "NUSA UV-5RH PRO V2 APRS REV2K" \
+              --title "NUSA UV-5RM / UV-5RH Board V2 APRS REV2K" \
               --notes-file RELEASE_NOTES_REV2K.md
           else
             gh release create REV2K \
               NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat \
               --target main \
-              --title "NUSA UV-5RH PRO V2 APRS REV2K" \
+              --title "NUSA UV-5RM / UV-5RH Board V2 APRS REV2K" \
               --notes-file RELEASE_NOTES_REV2K.md
           fi
