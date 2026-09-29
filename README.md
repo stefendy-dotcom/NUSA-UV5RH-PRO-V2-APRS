@@ -1,10 +1,17 @@
-# NUSA UV-5RH PRO V2 APRS Firmware — REV2K
+# NUSA UV-5RH PRO V2 APRS Firmware
 
 Custom APRS firmware for **Baofeng UV-5RH PRO V2**, based on the V2.0.9 firmware family.
 
-Firmware file:
+Current firmware files:
 
-`NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat`
+- `NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat` — stable APRS packet-detail baseline
+- `NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat` — current NUSA 2R compatibility build
+
+## Latest development: REV2R / NUSA 2R
+
+REV2R retains the REV2P/REV2Q APRS modem compatibility changes while restoring the OEM APRS enable/disable control. Field testing has confirmed that **APRS → APRS Ctrl → OFF now works correctly**. TX/beacon compatibility improvements from REV2P were also confirmed with VP-Digi and TYT. Weak-signal RX remains an active field-test area; no speculative RF gain/LNA/PGA/AGC register changes are used.
+
+See `REV2R_NOTES.md` for bilingual details.
 
 > **Important:** This build is intended only for the compatible UV-5RH PRO V2 hardware/firmware family that is known to accept the V2.0.9 firmware format. Do not flash it to a different hardware revision.
 
@@ -126,9 +133,11 @@ Firmware custom bersifat eksperimental dan proses flashing dilakukan dengan risi
 
 ---
 
-## File
+## Files
 
-- `NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat` — firmware REV2K
+- `NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat` — firmware REV2K stable baseline
+- `NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat` — firmware REV2R / display `NUSA 2R`
+- `REV2R_NOTES.md` — REV2R bilingual notes
 
 ## Project status
 
