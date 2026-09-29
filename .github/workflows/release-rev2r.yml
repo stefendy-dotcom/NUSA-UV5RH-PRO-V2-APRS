@@ -1,0 +1,36 @@
+name: Publish NUSA 2R Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - ".github/workflows/release-rev2r.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify firmware exists
+        run: |
+          test -f NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat
+          test "$(stat -c %s NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat)" = "401488"
+          test "$(sha256sum NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat | awk '{print $1}')" = "03e8a3a47dd2f133112013261db83e4b201062cc9b519fc909427d949670276d"
+
+      - name: Create REV2R release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view REV2R >/dev/null 2>&1; then
+            echo "Release REV2R already exists; updating asset and notes."
+            gh release upload REV2R NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat --clobber
+            gh release edit REV2R               --title "NUSA UV-5RH PRO V2 APRS REV2R / NUSA 2R"               --notes-file REV2R_NOTES.md
+          else
+            gh release create REV2R               NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat               --target main               --title "NUSA UV-5RH PRO V2 APRS REV2R / NUSA 2R"               --notes-file REV2R_NOTES.md
+          fi
