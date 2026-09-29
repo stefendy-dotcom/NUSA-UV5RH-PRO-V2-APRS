@@ -1,5 +1,16 @@
 # REV2R / NUSA 2R — APRS Ctrl Fix + RX/TX Compatibility
 
+## Board selection / Pemilihan board
+
+- **Board V1:** use **REV2R / NUSA 2R** (this release).
+- **Board V2:** use **REV2K** for now, based on current Board V2 field testing. REV2P/REV2R/REV2S are not currently recommended for Board V2 because regressions were reported on the tested Board V2 unit.
+
+**Bahasa Indonesia:**
+- **Board V1:** gunakan **REV2R / NUSA 2R** (rilis ini).
+- **Board V2:** gunakan **REV2K** untuk saat ini berdasarkan pengujian lapangan Board V2. REV2P/REV2R/REV2S belum direkomendasikan untuk Board V2 karena terdapat laporan regresi pada unit Board V2 yang diuji.
+
+> Board V1/V2 means the hardware/PCB revision, not the V2.0.9 firmware-family name.
+
 ## English
 
 REV2R is intended for **Baofeng UV-5RM / UV-5RH board V1** radios that are already known to accept the **V2.0.9 firmware family**. It is based on the stable REV2K branch and carries forward the APRS modem compatibility work from REV2P/REV2Q.
