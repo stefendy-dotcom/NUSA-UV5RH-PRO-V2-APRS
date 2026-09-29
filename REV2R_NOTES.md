@@ -2,7 +2,9 @@
 
 ## English
 
-REV2R is based on the stable REV2K branch and carries forward the APRS modem compatibility work from REV2P/REV2Q.
+REV2R is intended for **Baofeng UV-5RM / UV-5RH board V1** radios that are already known to accept the **V2.0.9 firmware family**. It is based on the stable REV2K branch and carries forward the APRS modem compatibility work from REV2P/REV2Q.
+
+> **Board warning:** the `V2` wording in the project/file history refers to the **V2.0.9 firmware family**, not a board-V2 hardware revision. Do not flash this build to board V2/V3 or another hardware revision unless compatibility has been independently confirmed.
 
 ### Confirmed field results
 
@@ -31,7 +33,9 @@ REV2R does **not** apply speculative RF sensitivity/LNA/PGA/AGC register modific
 
 ## Bahasa Indonesia
 
-REV2R berbasis cabang stabil REV2K dan mempertahankan perbaikan kompatibilitas modem APRS dari REV2P/REV2Q.
+REV2R ditujukan untuk **Baofeng UV-5RM / UV-5RH board V1** yang sudah terbukti dapat menggunakan **keluarga firmware V2.0.9**. REV2R berbasis cabang stabil REV2K dan mempertahankan perbaikan kompatibilitas modem APRS dari REV2P/REV2Q.
+
+> **Peringatan board:** istilah `V2` pada riwayat project/nama file mengacu pada **keluarga firmware V2.0.9**, bukan hardware board V2. Jangan flash firmware ini ke board V2/V3 atau revisi hardware lain kecuali kompatibilitasnya sudah terverifikasi.
 
 ### Hasil pengujian lapangan yang sudah terkonfirmasi
 
