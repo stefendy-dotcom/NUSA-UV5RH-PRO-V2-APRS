@@ -6,12 +6,12 @@ Custom APRS firmware project for **Baofeng UV-5RM / UV-5RH Board V1 and tested B
 
 | Hardware board | Firmware to use | Current status |
 |---|---|---|
-| **UV-5RM / UV-5RH Board V1** | **REV2R / NUSA 2R** | Latest public NUSA build for Board V1; field-tested on Board V1 |
+| **UV-5RM / UV-5RH Board V1** | **REV2V / NUSA 2V** | Latest field-tested feature release; built directly from REV2R baseline |
 | **UV-5RM / UV-5RH Board V2** | **REV2K** | Current known-working choice for Board V2 based on field testing |
 
 > **Important:** “Board V1 / Board V2” means the **hardware board revision**. This is different from the **V2.0.9 firmware family** name.
 >
-> A Board V2 field report found REV2K working normally with APRS List, good RX, backlight behavior, and GNSS lock, while later REV2P/REV2R/REV2S showed regressions on that tested Board V2 unit. Therefore **Board V2 users should use REV2K for now**. REV2R / NUSA 2R is intended for **Board V1**.
+> A Board V2 field report found REV2K working normally with APRS List, good RX, backlight behavior, and GNSS lock, while later REV2P/REV2R/REV2S showed regressions on that tested Board V2 unit. Therefore **Board V2 users should use REV2K for now**. REV2V / NUSA 2V is the latest field-tested feature release for **Board V1**, while REV2R / NUSA 2R remains the Board V1 development/recovery baseline.
 >
 > Hardware variants may differ. Keep the original stock firmware available for recovery.
 
@@ -19,25 +19,32 @@ Custom APRS firmware project for **Baofeng UV-5RM / UV-5RH Board V1 and tested B
 
 | Revisi hardware | Firmware yang digunakan | Status saat ini |
 |---|---|---|
-| **UV-5RM / UV-5RH Board V1** | **REV2R / NUSA 2R** | Rilis NUSA publik terbaru untuk Board V1; sudah diuji di Board V1 |
+| **UV-5RM / UV-5RH Board V1** | **REV2V / NUSA 2V** | Feature release terbaru yang sudah diuji; dibangun langsung dari baseline REV2R |
 | **UV-5RM / UV-5RH Board V2** | **REV2K** | Pilihan yang saat ini diketahui bekerja pada Board V2 berdasarkan pengujian lapangan |
 
 > **Penting:** “Board V1 / Board V2” adalah **revisi hardware/PCB**, bukan nama keluarga firmware **V2.0.9**.
 >
-> Pada laporan pengujian Board V2, REV2K bekerja normal untuk APRS List, RX, backlight, dan GNSS, sedangkan REV2P/REV2R/REV2S mengalami regresi pada unit Board V2 yang diuji. Karena itu **pengguna Board V2 disarankan menggunakan REV2K untuk saat ini**. REV2R / NUSA 2R ditujukan untuk **Board V1**.
+> Pada laporan pengujian Board V2, REV2K bekerja normal untuk APRS List, RX, backlight, dan GNSS, sedangkan REV2P/REV2R/REV2S mengalami regresi pada unit Board V2 yang diuji. Karena itu **pengguna Board V2 disarankan menggunakan REV2K untuk saat ini**. REV2V / NUSA 2V adalah feature release terbaru yang sudah diuji untuk **Board V1**, sedangkan REV2R / NUSA 2R tetap menjadi baseline pengembangan/recovery Board V1.
 >
 > Karena terdapat beberapa varian hardware, selalu simpan firmware original sebagai recovery.
 
 Current firmware files:
 
 - `NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat` — current known-working choice for **Board V2** and stable APRS packet-detail baseline
-- `NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat` — latest public **Board V1** build / NUSA 2R
+- `NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat` — **Board V1 baseline/recovery** / NUSA 2R
+- `NUSA_UV5RH_BOARDV1_REV2V_MANUAL_BEACON_OEM_QUEUE.dat` — latest field-tested **Board V1 feature release** / NUSA 2V
 
-## Latest development: REV2R / NUSA 2R
+## Latest Board V1 feature release: REV2V / NUSA 2V
 
-REV2R is the current compatibility build for **UV-5RM / UV-5RH board V1** radios that use the V2.0.9 firmware family. It retains the REV2P/REV2Q APRS modem compatibility changes while restoring the OEM APRS enable/disable control. Field testing has confirmed that **APRS → APRS Ctrl → OFF now works correctly**. TX/beacon compatibility improvements from REV2P were also confirmed with VP-Digi and TYT. Weak-signal RX remains an active field-test area; no speculative RF gain/LNA/PGA/AGC register changes are used.
+REV2V is built directly from the **REV2R / NUSA 2R Board V1 baseline** and adds a corrected manual APRS beacon.
 
-See `REV2R_NOTES.md` for bilingual details.
+**Field-confirmed:** with APRS Ctrl ON, **Long SK2 / PF2 transmits one APRS beacon over RF**. Unlike the earlier REV2S experiment, REV2V does not call the Bell-202/APRS builder directly from the key handler. It requests the beacon through the OEM APRS queue/radio state machine so the normal RF TX preparation is performed.
+
+- **Board V1 baseline/recovery:** REV2R / NUSA 2R
+- **Board V1 latest field-tested feature release:** REV2V / NUSA 2V
+- **Board V2:** continue using REV2K
+
+See `REV2V_NOTES.md` for bilingual details.
 
 > **BOARD COMPATIBILITY — IMPORTANT:** REV2R / NUSA 2R is intended for **Baofeng UV-5RM / UV-5RH board V1** units that are already known to accept the **V2.0.9 firmware family**. The `V2` wording in the project/file history refers to the **V2.0.9 firmware family**, not to a board-V2 hardware revision. **Do not flash REV2R to a different board/hardware revision unless compatibility has been independently confirmed.**
 
@@ -168,8 +175,10 @@ Firmware custom bersifat eksperimental dan proses flashing dilakukan dengan risi
 ## Files
 
 - `NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat` — firmware REV2K stable baseline
-- `NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat` — firmware REV2R / display `NUSA 2R`
-- `REV2R_NOTES.md` — REV2R bilingual notes
+- `NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat` — Board V1 baseline / display `NUSA 2R`
+- `NUSA_UV5RH_BOARDV1_REV2V_MANUAL_BEACON_OEM_QUEUE.dat` — Board V1 manual-beacon feature release / display `NUSA 2V`
+- `REV2R_NOTES.md` — REV2R baseline notes
+- `REV2V_NOTES.md` — REV2V field-tested manual-beacon notes
 
 ## Project status
 
