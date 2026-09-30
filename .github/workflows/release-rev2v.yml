@@ -1,0 +1,60 @@
+name: Publish NUSA 2V Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - ".github/workflows/release-rev2v.yml"
+      - "tools/build_rev2v.py"
+      - "REV2V_NOTES.md"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build REV2V from field-proven REV2R baseline
+        run: |
+          python3 tools/build_rev2v.py
+
+      - name: Verify REV2V firmware
+        run: |
+          test -f NUSA_UV5RH_BOARDV1_REV2V_MANUAL_BEACON_OEM_QUEUE.dat
+          test "$(stat -c %s NUSA_UV5RH_BOARDV1_REV2V_MANUAL_BEACON_OEM_QUEUE.dat)" = "401488"
+          test "$(sha256sum NUSA_UV5RH_BOARDV1_REV2V_MANUAL_BEACON_OEM_QUEUE.dat | awk '{print $1}')" = "744352003e74f39d0dfe2d53126a7bd29be09c0c7ad130708489dd12143939b4"
+
+      - name: Store verified REV2V binary in repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add NUSA_UV5RH_BOARDV1_REV2V_MANUAL_BEACON_OEM_QUEUE.dat
+          if git diff --cached --quiet; then
+            echo "REV2V binary already matches verified build."
+          else
+            git commit -m "Add field-tested REV2V Board V1 manual beacon firmware"
+            git push origin HEAD:main
+          fi
+
+      - name: Create or update REV2V release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view REV2V >/dev/null 2>&1; then
+            echo "Release REV2V already exists; updating asset and notes."
+            gh release upload REV2V NUSA_UV5RH_BOARDV1_REV2V_MANUAL_BEACON_OEM_QUEUE.dat --clobber
+            gh release edit REV2V \
+              --title "NUSA UV-5RM / UV-5RH Board V1 APRS REV2V / NUSA 2V" \
+              --notes-file REV2V_NOTES.md
+          else
+            gh release create REV2V \
+              NUSA_UV5RH_BOARDV1_REV2V_MANUAL_BEACON_OEM_QUEUE.dat \
+              --target main \
+              --title "NUSA UV-5RM / UV-5RH Board V1 APRS REV2V / NUSA 2V" \
+              --notes-file REV2V_NOTES.md
+          fi
