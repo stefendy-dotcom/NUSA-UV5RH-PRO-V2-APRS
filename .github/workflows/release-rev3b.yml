@@ -1,0 +1,58 @@
+name: Publish NUSA 3B CLEAN Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - ".github/workflows/release-rev3b.yml"
+      - "tools/build_rev3b.py"
+      - "REV3B_NOTES.md"
+      - "REV3B_CODEPLUG.md"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build verified REV3B firmware and clean codeplug
+        run: |
+          python3 tools/build_rev3b.py
+
+      - name: Verify output files
+        run: |
+          test -f NUSA_UV5RH_BOARDV1_REV3B_CLEAN_APRS_MESSAGE.dat
+          test -f NUSA_REV3B_BOARDV1_CLEAN_SAFE.xlc
+          test "$(stat -c %s NUSA_UV5RH_BOARDV1_REV3B_CLEAN_APRS_MESSAGE.dat)" = "401488"
+          test "$(stat -c %s NUSA_REV3B_BOARDV1_CLEAN_SAFE.xlc)" = "131072"
+          test "$(sha256sum NUSA_UV5RH_BOARDV1_REV3B_CLEAN_APRS_MESSAGE.dat | awk '{print $1}')" = "4f1d6c6346a46964eb45806fdc3e52e49dcb358b0c455b3678c7e86522b791d6"
+          test "$(sha256sum NUSA_REV3B_BOARDV1_CLEAN_SAFE.xlc | awk '{print $1}')" = "c8c0ca836718987108a73adddca1b5ae23ff5af6daca04ea59e2bc494f5073af"
+
+      - name: Store verified REV3B files in repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add NUSA_UV5RH_BOARDV1_REV3B_CLEAN_APRS_MESSAGE.dat NUSA_REV3B_BOARDV1_CLEAN_SAFE.xlc
+          if git diff --cached --quiet; then
+            echo "REV3B firmware and codeplug already match verified outputs."
+          else
+            git commit -m "Add REV3B CLEAN firmware and matching codeplug"
+            git push origin HEAD:main
+          fi
+
+      - name: Create or update REV3B release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view REV3B >/dev/null 2>&1; then
+            echo "Release REV3B exists; updating assets and notes."
+            gh release upload REV3B               NUSA_UV5RH_BOARDV1_REV3B_CLEAN_APRS_MESSAGE.dat               NUSA_REV3B_BOARDV1_CLEAN_SAFE.xlc               --clobber
+            gh release edit REV3B               --title "NUSA UV-5RM / UV-5RH Board V1 APRS REV3B CLEAN / NUSA 3B"               --notes-file REV3B_NOTES.md
+          else
+            gh release create REV3B               NUSA_UV5RH_BOARDV1_REV3B_CLEAN_APRS_MESSAGE.dat               NUSA_REV3B_BOARDV1_CLEAN_SAFE.xlc               --target main               --title "NUSA UV-5RM / UV-5RH Board V1 APRS REV3B CLEAN / NUSA 3B"               --notes-file REV3B_NOTES.md
+          fi

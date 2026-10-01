@@ -6,7 +6,7 @@ Custom APRS firmware project for **Baofeng UV-5RM / UV-5RH Board V1 and tested B
 
 | Hardware board | Firmware to use | Current status |
 |---|---|---|
-| **UV-5RM / UV-5RH Board V1** | **REV2V / NUSA 2V** | Latest field-tested feature release; built directly from REV2R baseline |
+| **UV-5RM / UV-5RH Board V1** | **REV3B CLEAN / NUSA 3B** | Current clean APRS Message release; preserves the successful REV3A receive logic and includes the matching clean codeplug |
 | **UV-5RM / UV-5RH Board V2** | **REV2K** | Current known-working choice for Board V2 based on field testing |
 
 > **Important:** “Board V1 / Board V2” means the **hardware board revision**. This is different from the **V2.0.9 firmware family** name.
@@ -19,7 +19,7 @@ Custom APRS firmware project for **Baofeng UV-5RM / UV-5RH Board V1 and tested B
 
 | Revisi hardware | Firmware yang digunakan | Status saat ini |
 |---|---|---|
-| **UV-5RM / UV-5RH Board V1** | **REV2V / NUSA 2V** | Feature release terbaru yang sudah diuji; dibangun langsung dari baseline REV2R |
+| **UV-5RM / UV-5RH Board V1** | **REV3B CLEAN / NUSA 3B** | Rilis APRS Message clean saat ini; mempertahankan logic RX REV3A yang berhasil diuji dan disertai codeplug clean yang sesuai |
 | **UV-5RM / UV-5RH Board V2** | **REV2K** | Pilihan yang saat ini diketahui bekerja pada Board V2 berdasarkan pengujian lapangan |
 
 > **Penting:** “Board V1 / Board V2” adalah **revisi hardware/PCB**, bukan nama keluarga firmware **V2.0.9**.
@@ -30,11 +30,28 @@ Custom APRS firmware project for **Baofeng UV-5RM / UV-5RH Board V1 and tested B
 
 Current firmware files:
 
+- `NUSA_UV5RH_BOARDV1_REV3B_CLEAN_APRS_MESSAGE.dat` — current **Board V1 REV3B CLEAN / NUSA 3B** APRS Message firmware
+- `NUSA_REV3B_BOARDV1_CLEAN_SAFE.xlc` — matching **clean Board V1 codeplug** recommended for REV3B
 - `NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat` — current known-working choice for **Board V2** and stable APRS packet-detail baseline
 - `NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat` — **Board V1 baseline/recovery** / NUSA 2R
 - `NUSA_UV5RH_BOARDV1_REV2V_MANUAL_BEACON_OEM_QUEUE.dat` — latest field-tested **Board V1 feature release** / NUSA 2V
 
-## Latest Board V1 feature release: REV2V / NUSA 2V
+## Current Board V1 release: REV3B CLEAN / NUSA 3B
+
+REV3B CLEAN consolidates the Board V1 APRS Message work into one reproducible release and ships with the **matching clean codeplug**.
+
+Download/use these together:
+
+- `NUSA_UV5RH_BOARDV1_REV3B_CLEAN_APRS_MESSAGE.dat`
+- `NUSA_REV3B_BOARDV1_CLEAN_SAFE.xlc`
+
+The functional REV3A logic retained by REV3B displayed APRS Message bodies of **18, 19, 20 and 24 characters** during Board V1 testing on a clear RF channel. REV3B changes only the displayed version label from the successful REV3A binary. The APRS Message TX path remains the OEM type-6 / Message builder path; that relevant path was also field-tested over RF with a Board V1 REV2S sender. Long-SK2 manual beacon retains the field-tested REV2V OEM queue method.
+
+**Important:** first test REV3B with the supplied clean codeplug. Old/malformed APRS codeplug data was shown during development to produce misleading empty-list and stability symptoms.
+
+See `REV3B_NOTES.md` and `REV3B_CODEPLUG.md` for bilingual details and checksums.
+
+## Previous Board V1 feature release: REV2V / NUSA 2V
 
 REV2V is built directly from the **REV2R / NUSA 2R Board V1 baseline** and adds a corrected manual APRS beacon.
 
@@ -174,6 +191,10 @@ Firmware custom bersifat eksperimental dan proses flashing dilakukan dengan risi
 
 ## Files
 
+- `NUSA_UV5RH_BOARDV1_REV3B_CLEAN_APRS_MESSAGE.dat` — Board V1 REV3B CLEAN firmware / display `NUSA 3B`
+- `NUSA_REV3B_BOARDV1_CLEAN_SAFE.xlc` — matching clean codeplug for REV3B
+- `REV3B_NOTES.md` — REV3B bilingual release notes
+- `REV3B_CODEPLUG.md` — clean-codeplug explanation and baseline settings
 - `NUSA_UV5RH_PRO_V2_REV2K_APRS_PACKET_DETAIL.dat` — firmware REV2K stable baseline
 - `NUSA_UV5RH_PRO_V2_REV2R_APRS_CTRL_FIX_BOARDV1.dat` — Board V1 baseline / display `NUSA 2R`
 - `NUSA_UV5RH_BOARDV1_REV2V_MANUAL_BEACON_OEM_QUEUE.dat` — Board V1 manual-beacon feature release / display `NUSA 2V`
@@ -181,6 +202,8 @@ Firmware custom bersifat eksperimental dan proses flashing dilakukan dengan risi
 - `REV2V_NOTES.md` — REV2V field-tested manual-beacon notes
 
 ## Project status
+
+**Board V1 current clean release: REV3B CLEAN / NUSA 3B.** Use the supplied `NUSA_REV3B_BOARDV1_CLEAN_SAFE.xlc` codeplug for first testing. **Board V2 remains on REV2K.**
 
 REV2K is kept as the **stable APRS packet-detail baseline**. New experimental features should be developed in separate revisions so that this build remains available as a recovery/reference point.
 
